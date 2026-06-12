@@ -1,0 +1,55 @@
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+
+# Sample dataset
+data = {
+    "text": [
+        "Government launches new education policy",
+        "Scientists discover water on Mars",
+        "Aliens landed in Chennai yesterday",
+        "Man becomes invisible after drinking tea",
+        "India wins cricket match",
+        "Moon made entirely of cheese"
+    ],
+    "label": [
+        "REAL",
+        "REAL",
+        "FAKE",
+        "FAKE",
+        "REAL",
+        "FAKE"
+    ]
+}
+
+# Create DataFrame
+df = pd.DataFrame(data)
+
+print("Dataset:")
+print(df)
+
+# Input and Output
+X = df["text"]
+y = df["label"]
+
+# Convert text into numbers
+vectorizer = TfidfVectorizer()
+X_vectorized = vectorizer.fit_transform(X)
+
+# Train Model
+model = LogisticRegression()
+model.fit(X_vectorized, y)
+
+print("\nModel Trained Successfully!")
+
+# Test News
+news = ["Aliens are ruling India"]
+
+# Convert test news
+news_vectorized = vectorizer.transform(news)
+
+# Prediction
+prediction = model.predict(news_vectorized)
+
+print("\nNews:", news[0])
+print("Prediction:", prediction[0])
